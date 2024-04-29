@@ -12,10 +12,6 @@ ANIME_RELOCATE_PATH = os.getenv("PLEX_ANIME_PATH")
 NO_SEASON_PATTERN = r"^\[.*?\]\s(.+)\s-\s(\d+)\s\(\d+p\)\s\[.*?\]\W\w+$"
 WITH_SEASON_PATTERN = r"^\[.*?\]\s(.+)(S\d+)\s-\s(\d+)\s\(\d+p\)\s\[.*?\]\W\w+$"
 
-to_extract_for_title = ['\[.*?\]','\(\d+p\)','\W\w+$','-\s(\d+)','(S\d+)']
-to_extract_for_episode = ['\[.*?\]','\(\d+p\)','\W\w+$','(S\d+)','[a-zA-Z]','-']
-to_extract_for_season = ['\[.*?\]','\(\d+p\)','\W\w+$','[a-zA-Z]', '- \d+']
-
 @dataclass
 class Anime:
     original_path:Path
