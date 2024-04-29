@@ -72,25 +72,28 @@ def move_anime(anime:Anime)->None:
 
 def manage_anime()->None:
     for file in os.listdir(ANIME_PATH):
-        anime_file = Path(f"{ANIME_PATH}/{file}")
-        if has_season(file):
-            anime = Anime(
-                original_path=anime_file,
-                title=extract_title(file),
-                episode=extract_episode(file),
-                extension=anime_file.suffix,
-                season=extract_season(file),
-            )
-        else:
-            if verify_no_season(file):
+        try:
+            anime_file = Path(f"{ANIME_PATH}/{file}")
+            if has_season(file):
                 anime = Anime(
                     original_path=anime_file,
                     title=extract_title(file),
                     episode=extract_episode(file),
                     extension=anime_file.suffix,
+                    season=extract_season(file),
                 )
-                
-        move_anime(anime)
+            else:
+                if verify_no_season(file):
+                    anime = Anime(
+                        original_path=anime_file,
+                        title=extract_title(file),
+                        episode=extract_episode(file),
+                        extension=anime_file.suffix,
+                    )
+                    
+            move_anime(anime)
+        except Exception as err:
+            print(err)
         
 if __name__=='__main__':
     manage_anime()
