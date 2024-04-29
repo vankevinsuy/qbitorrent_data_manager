@@ -1,0 +1,24 @@
+services:
+  manager:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ${HOST_ROOT_DRIVE}:/app/${CONTAINER_ROOT_DRIVE}
+    env_file:
+      - dev.env
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - WEBUI_PORT=8096
+      - TORRENTING_PORT=6881
+    volumes:
+      - ${HOST_ROOT_DRIVE}/qbitorrent:/downloads
+    ports:
+      - 8096:8096
+      - 6881:6881
+      - 6881:6881/udp
