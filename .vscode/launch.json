@@ -11,7 +11,9 @@
         "HOST_ROOT_DRIVE": "./test_folders",
         "CONTAINER_ROOT_DRIVE": "./test_folders",
         "QBITORRENT_ANIME_PATH": "./test_folders/qbitorrent/anime",
-        "PLEX_ANIME_PATH": "./test_folders/plex/anime"
+        "PLEX_ANIME_PATH": "./test_folders/plex/anime",
+        "QBITORRENT_MOVIE_PATH": "./test_folders/qbitorrent/movie",
+        "PLEX_MOVIE_PATH": "./test_folders/plex/movie"
       }
     },
 
