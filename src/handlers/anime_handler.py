@@ -1,29 +1,25 @@
 import os
-import time
-from watchdog.events import FileSystemEvent, FileSystemEventHandler
+from watchdog.events import FileSystemEvent, PatternMatchingEventHandler
 from watchdog.observers import Observer
+from sorting.anime import manage_anime
 
-from anime_sorting import manage_anime
+class AnimeHandler(PatternMatchingEventHandler):
+    def __init__(self, patterns=['*.mp4', '*.mkv'], ignore_patterns=None, ignore_directories=True, case_sensitive=False):
+        super().__init__(patterns, ignore_patterns, ignore_directories, case_sensitive)
 
-class AnimeHandler(FileSystemEventHandler):
     def on_created(self, event: FileSystemEvent) -> None:
-        manage_anime()
-        
-        
-class Anime_watcher:
-	def __init__(self):
-		self.observer = Observer()
-		self.watchDirectory = os.getenv("QBITORRENT_ANIME_PATH")
+        try:
+            print(f"new anime : {event.src_path}")
+            manage_anime()
+        except Exception as err:
+            print(err)
 
-	def run(self):
-		event_handler = AnimeHandler()
-		self.observer.schedule(event_handler, self.watchDirectory, recursive = True)
-		self.observer.start()
-		try:
-			while True:
-				time.sleep(5)
-		except:
-			self.observer.stop()
-			print("Observer Stopped")
+class AnimeWatcher:
+    def __init__(self):
+        self.observer = Observer()
+        self.watchDirectory = os.getenv("QBITORRENT_ANIME_PATH")
 
-		self.observer.join()
+    def run(self):
+        event_handler = AnimeHandler()
+        self.observer.schedule(event_handler, self.watchDirectory, recursive = True)
+        self.observer.start()

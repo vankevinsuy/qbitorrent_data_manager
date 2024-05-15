@@ -4,6 +4,6 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ${HOST_ROOT_DRIVE}:/app/${CONTAINER_ROOT_DRIVE}
+      - ${HOST_ROOT_DRIVE}:${CONTAINER_ROOT_DRIVE}
     env_file:
       - .env
