@@ -9,8 +9,19 @@ import os
 ANIME_PATH = os.getenv("QBITORRENT_ANIME_PATH")
 ANIME_RELOCATE_PATH = os.getenv("PLEX_ANIME_PATH")
 
-NO_SEASON_PATTERN = r"^\[.*?\]\s(.+)\s-\s(\d+)\s\(\d+p\)\s\[.*?\]\W\w+$"
-WITH_SEASON_PATTERN = r"^\[.*?\]\s(.+)(S\d+)\s-\s(\d+)\s\(\d+p\)\s\[.*?\]\W\w+$"
+SUBBER_PATTERN = r"^(\[.*?\])"
+
+PATTERNS = {
+    "SubsPlease": {
+        "no_season_pattern": r"^\[.*?\]\s(.+)\s-\s(\d+)\s\(\d+p\)\s\[.*?\]\W\w+$",
+        "with_season_pattern": r"^\[.*?\]\s(.+)(S\d+)\s-\s(\d+)\s\(\d+p\)\s\[.*?\]\W\w+$"
+    },
+    "NeoLX": {
+        "no_season_pattern": r"^(\[.*?\])\s(.+)\s\[.*?\]\W\w+$",
+        "with_season_pattern": r"^(\[.*?\])\s(.+)(S\d+)E(\d+)\s\[.*?\]\W\w+$"
+    },
+}
+
 
 @dataclass
 class Anime:
@@ -20,9 +31,26 @@ class Anime:
     extension:str
     season:int = 1
 
+def extract_subber(filename:str)->str:
+    try:
+        subber = re.search(SUBBER_PATTERN, filename)
+        if subber:
+            subber = subber.group(0).replace('[', '').replace(']', '')
+            if subber in PATTERNS.keys():
+                return subber
+            else:
+                raise ValueError(f"Subber {subber} not in PATTERNS")
+        else:
+            raise ValueError(f"Subber not found {filename}")
+    except Exception as err:
+        raise Exception(err)
+
 def extract_title(filename:str)->str:
-    match_season = re.search(WITH_SEASON_PATTERN, filename)
-    match_no_season = re.search(NO_SEASON_PATTERN, filename)
+    subber = extract_subber(filename)
+    pattern_with_season = PATTERNS[subber]['with_season_pattern']
+    pattern_no_season = PATTERNS[subber]['no_season_pattern']
+    match_season = re.search(pattern_with_season, filename)
+    match_no_season = re.search(pattern_no_season, filename)
     
     if match_season:
         return match_season.group(1).strip()
@@ -32,8 +60,11 @@ def extract_title(filename:str)->str:
     return filename.strip()
 
 def extract_episode(filename:str)->int:
-    match_season = re.search(WITH_SEASON_PATTERN, filename)
-    match_no_season = re.search(NO_SEASON_PATTERN, filename)
+    subber = extract_subber(filename)
+    pattern_with_season = PATTERNS[subber]['with_season_pattern']
+    pattern_no_season = PATTERNS[subber]['no_season_pattern']
+    match_season = re.search(pattern_with_season, filename)
+    match_no_season = re.search(pattern_no_season, filename)
         
     if match_season:
         return int(match_season.group(3))
@@ -41,14 +72,18 @@ def extract_episode(filename:str)->int:
         return int(match_no_season.group(2))
     
 def extract_season(filename:str)->int:
-    match_season = re.search(WITH_SEASON_PATTERN, filename)
+    subber = extract_subber(filename)
+    pattern = PATTERNS[subber]['with_season_pattern']
+    match_season = re.search(pattern, filename)
     
     if match_season:
-        return match_season.group(2).strip().replace('S', '')
+        return int(match_season.group(3).strip().replace('S', ''))
 
 def has_season(filename:str)->bool:
     filename = filename.strip()
-    match = re.search(WITH_SEASON_PATTERN, filename)
+    subber = extract_subber(filename)
+    pattern = PATTERNS[subber]['with_season_pattern']
+    match = re.search(pattern, filename)
     if match:
         return True
     else:
@@ -56,7 +91,9 @@ def has_season(filename:str)->bool:
     
 def verify_no_season(filename:str)->bool:
     filename = filename.strip()
-    match = re.search(NO_SEASON_PATTERN, filename)
+    subber = extract_subber(filename)
+    pattern = PATTERNS[subber]['no_season_pattern']
+    match = re.search(pattern, filename)
     if match:
         return True
     else:
