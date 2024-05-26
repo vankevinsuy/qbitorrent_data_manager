@@ -7,3 +7,4 @@ services:
       - ${HOST_ROOT_DRIVE}:${CONTAINER_ROOT_DRIVE}
     env_file:
       - .env
+    restart: always
