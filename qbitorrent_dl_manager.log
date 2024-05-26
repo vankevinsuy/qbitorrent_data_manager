@@ -4,3 +4,18 @@
 2024-05-26 17:28:27,794 - INFO - Watching directory: ./test_folders/qbitorrent/movie
 2024-05-26 17:28:27,795 - INFO - AnimatedMovieWatcher started
 2024-05-26 17:28:27,796 - INFO - Watching directory: ./test_folders/qbitorrent/animated_movie
+2024-05-26 17:30:31,392 - INFO - AnimeWatcher started
+2024-05-26 17:30:31,392 - INFO - Watching directory: ./test_folders/qbitorrent/anime
+2024-05-26 17:30:31,393 - INFO - MovieWatcher started
+2024-05-26 17:30:31,395 - INFO - Watching directory: ./test_folders/qbitorrent/movie
+2024-05-26 17:30:31,395 - INFO - AnimatedMovieWatcher started
+2024-05-26 17:30:31,396 - INFO - Watching directory: ./test_folders/qbitorrent/animated_movie
+2024-05-26 17:41:37,807 - INFO - AnimeWatcher started
+2024-05-26 17:41:37,808 - INFO - Watching directory: ./test_folders/qbitorrent/anime
+2024-05-26 17:41:37,810 - INFO - MovieWatcher started
+2024-05-26 17:41:37,812 - INFO - Watching directory: ./test_folders/qbitorrent/movie
+2024-05-26 17:41:37,812 - INFO - AnimatedMovieWatcher started
+2024-05-26 17:41:37,813 - INFO - Watching directory: ./test_folders/qbitorrent/animated_movie
+2024-05-26 17:41:52,596 - INFO - New movie file detected: t.mp4
+2024-05-26 17:42:02,227 - INFO - New anime file detected: t.mp4
+2024-05-26 17:42:12,978 - INFO - New animated movie detected: /Users/vankevin/Documents/personal_projects/homelab/qbitorrent_dl_manager/test_folders/qbitorrent/animated_movie/t.mp4

@@ -4,21 +4,18 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ${HOST_ROOT_DRIVE}:/app/${CONTAINER_ROOT_DRIVE}
+      - ./test_folders:/test_folders
+      - ./test_folders/qbitorrent/anime:/test_folders/qbitorrent/anime
+      - ./test_folders/plex/anime:/test_folders/plex/anime
+      - ./test_folders/qbitorrent/movie:/test_folders/qbitorrent/movie
+      - ./test_folders/plex/movies:/test_folders/plex/movies
+      - ./test_folders/qbitorrent/animated_movie:/test_folders/qbitorrent/animated_movie
+      - ./test_folders/plex/animated_movies:/test_folders/plex/animated_movies
     env_file:
       - dev.env
-  qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
-    container_name: qbittorrent
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Etc/UTC
-      - WEBUI_PORT=8096
-      - TORRENTING_PORT=6881
-    volumes:
-      - ${HOST_ROOT_DRIVE}/qbitorrent:/downloads
-    ports:
-      - 8096:8096
-      - 6881:6881
-      - 6881:6881/udp
+    healthcheck:
+      test: curl --fail http://localhost:1234/healthcheck || exit 1
+      interval: 5s
+      timeout: 10s
+      retries: 3
+      start_period: 5s

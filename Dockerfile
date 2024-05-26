@@ -1,11 +1,11 @@
-FROM python:3.11.4-alpine3.17
-
+FROM python:3.11.4-slim-bullseye
 WORKDIR /app
+
+RUN apt update && apt upgrade -y && apt autoremove -y
+RUN apt update && apt install curl -y && rm -rf /var/lib/apt/lists/* && apt clean
 
 COPY ./src ./src
 COPY ./requirements.txt ./requirements.txt
-
 RUN pip install -r ./requirements.txt
-
-CMD [ "python","src/main.py" ]
+CMD ["python", "src/main.py"]
 
