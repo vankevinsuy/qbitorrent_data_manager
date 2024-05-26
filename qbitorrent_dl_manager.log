@@ -1,0 +1,6 @@
+2024-05-26 17:28:27,791 - INFO - AnimeWatcher started
+2024-05-26 17:28:27,792 - INFO - Watching directory: ./test_folders/qbitorrent/anime
+2024-05-26 17:28:27,794 - INFO - MovieWatcher started
+2024-05-26 17:28:27,794 - INFO - Watching directory: ./test_folders/qbitorrent/movie
+2024-05-26 17:28:27,795 - INFO - AnimatedMovieWatcher started
+2024-05-26 17:28:27,796 - INFO - Watching directory: ./test_folders/qbitorrent/animated_movie
