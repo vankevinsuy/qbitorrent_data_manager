@@ -28,6 +28,14 @@ PATTERNS: Dict[str, Dict[str, Optional[Pattern]]] = {
         'episode_pos_no_season': None,
         'season_pos': 2
     },
+    "Erai-raws":{
+        "no_season_pattern": re.compile(r"^(\[.*?\])\s(.+)\s-\s(\d+)"),
+        "with_season_pattern": re.compile(r"^(\[.*?\])\s(.+)(\d+)\s-\s(\d+)"),
+        'title_pos': 2,
+        'episode_pos_with_season': 4,
+        'episode_pos_no_season': 3,
+        'season_pos': 3
+    }
 }
 
 
