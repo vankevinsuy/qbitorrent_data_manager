@@ -3,3 +3,4 @@ test_folders
 .env
 *__pycache__*
 .DS_Store
+*.log
