@@ -211,6 +211,8 @@ def move_anime(anime: Anime) -> None:
     """
     destination_folder = f"{ANIME_RELOCATE_PATH}/{anime.title}/season_{anime.season}/"
     destination_path = f"{destination_folder}/{anime.original_path.name}"
+    
+    anime.original_path.chmod(744)
 
     os.makedirs(os.path.dirname(destination_folder), exist_ok=True)
     shutil.move(str(anime.original_path), destination_path)
