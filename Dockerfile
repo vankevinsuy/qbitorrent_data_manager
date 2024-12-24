@@ -1,4 +1,4 @@
-FROM python:3.11.4-slim-bullseye
+FROM python:3.14.0a3-slim-bullseye
 WORKDIR /app
 
 RUN apt update && apt upgrade -y && apt autoremove -y
