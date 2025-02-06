@@ -6,6 +6,9 @@ RUN apt update && apt install curl -y && rm -rf /var/lib/apt/lists/* && apt clea
 
 COPY ./src ./src
 COPY ./requirements.txt ./requirements.txt
-RUN pip install -r ./requirements.txt
-CMD ["python", "src/main.py"]
 
+RUN python -m venv venv
+ENV PYTHONPATH="$PYTHONPATH:/app/venv/lib/python3.14/site-packages"
+RUN /app/venv/bin/pip install -r ./requirements.txt
+
+CMD ["/app/venv/bin/python", "src/main.py"]
