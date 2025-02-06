@@ -1,8 +1,8 @@
 FROM python:3.14.0a4-alpine3.21
 WORKDIR /app
 
-RUN apt update && apt upgrade -y && apt autoremove -y
-RUN apt update && apt install curl -y && rm -rf /var/lib/apt/lists/* && apt clean
+RUN apk update && apk upgrade && apk fix
+RUN apk add --no-cache curl
 
 COPY ./src ./src
 COPY ./requirements.txt ./requirements.txt
