@@ -9,6 +9,8 @@ ANIME_PATH = os.getenv("QBITORRENT_ANIME_PATH")
 ANIME_RELOCATE_PATH = os.getenv("PLEX_ANIME_PATH")
 
 SUBBER_PATTERN = re.compile(r"^(\[.*?\])")
+NOSUBBER_PATTERN = re.compile(r"^(.+).S(\d+)E(\d+)")
+
 SUBBER_POSITION = 0
 
 PATTERNS: Dict[str, Dict[str, Optional[Pattern]]] = {
@@ -35,6 +37,14 @@ PATTERNS: Dict[str, Dict[str, Optional[Pattern]]] = {
         'episode_pos_with_season': 4,
         'episode_pos_no_season': 3,
         'season_pos': 3
+    },
+    "NoSubber":{
+        "no_season_pattern": re.compile(r""),
+        "with_season_pattern": re.compile(r"^(.+).S(\d+)E(\d+)"),
+        'title_pos': 1,
+        'episode_pos_with_season': 3,
+        'episode_pos_no_season': 3,
+        'season_pos': 2
     }
 }
 
@@ -75,6 +85,11 @@ def extract_subber(filename: str) -> str:
         if subber in PATTERNS:
             return subber
         raise ValueError(f"Subber {subber} not in PATTERNS")
+    else:
+        no_subber_match = NOSUBBER_PATTERN.search(filename)
+        if no_subber_match:
+            return "NoSubber"
+        
     raise ValueError(f"Subber not found {filename}")
 
 
@@ -196,6 +211,8 @@ def move_anime(anime: Anime) -> None:
     """
     destination_folder = f"{ANIME_RELOCATE_PATH}/{anime.title}/season_{anime.season}/"
     destination_path = f"{destination_folder}/{anime.original_path.name}"
+    
+    anime.original_path.chmod(0o744)
 
     os.makedirs(os.path.dirname(destination_folder), exist_ok=True)
     shutil.move(str(anime.original_path), destination_path)

@@ -19,6 +19,8 @@ def animated_move_movie(animated_movie_path: str) -> None:
 
     original_path = Path(animated_movie_path)
     destination_path = Path(ANIMATED_MOVIE_RELOCATE_PATH, original_path.name)
+    
+    original_path.chmod(0o744)
 
     os.makedirs(ANIMATED_MOVIE_RELOCATE_PATH, exist_ok=True)
     shutil.move(str(original_path), str(destination_path))

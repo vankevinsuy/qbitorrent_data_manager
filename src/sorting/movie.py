@@ -19,6 +19,8 @@ def move_movie(movie_path: str) -> None:
 
     original_path = Path(movie_path)
     destination_path = Path(MOVIE_RELOCATE_PATH) / original_path.name
+    
+    original_path.chmod(0o744)
 
     os.makedirs(MOVIE_RELOCATE_PATH, exist_ok=True)
     shutil.move(str(original_path), str(destination_path))
